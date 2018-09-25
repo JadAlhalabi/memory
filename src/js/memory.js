@@ -1,5 +1,3 @@
-// TODO: 1.1. Design för en memory-bricka
-// TODO: 1.2. Varje bricka behöver en bild på dess baksida
 // TODO: 1.3. Varje bricka behöver en bild på dess framsida
 // TODO: 1.4. Skriva it 4x4 brickor
 // TODO: 1.5. Brickorna bör ligga i ett rutnät på 4 rader, 4 brickor per rad

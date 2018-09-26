@@ -1,6 +1,3 @@
-// TODO: 1.3. Varje bricka behöver en bild på dess framsida
-// TODO: 1.4. Skriva it 4x4 brickor
-// TODO: 1.5. Brickorna bör ligga i ett rutnät på 4 rader, 4 brickor per rad
 // TODO: 1.6. Man ska kunna vända en bricka genom att trycka på den
 // TODO: 1.7. Om 2 lika brickor vänds så ska dem tas bort
 // TODO: 1.8. Om 2 olika brickor vänds så ska dem vändas tillbaka
@@ -13,10 +10,13 @@
 /* TODO: 3. En enklare dokumentation i README.md som ska vara skriven i markup språket Markdown,
 Bör inhållar kortare information om vad som ligger i respektive fil somt vilka kommandon som ska
  köras för att starta utvecklingsserver samt hur man bygger en build. */
+//
+//
 const memory = () => {
   const rows = 4;
   const columns = 4;
-
+  //
+  const tiles = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8];
   //
   const containerId = 'memory';
   //
@@ -32,9 +32,24 @@ const memory = () => {
   container.appendChild(div);
 
   //
-  for (let i = 0; i < rows * columns; i++) {
+  for (let i = 0; i < tiles.length; i++) {
+    // FIXME:
+    //
+    const handleClick = event => {
+      // FIXME:
+      let img;
+      if (event.target.tagName === 'DIV') {
+        img = event.target.firstElementChild;
+      } else {
+        img = event.target;
+      }
+      const path = `images/${tiles[i]}.png`;
+      img.setAttribute('src', path);
+    };
+    // FIXME:
     //
     const brick = document.importNode(templateDiv.firstElementChild, true);
+    brick.addEventListener('click', handleClick);
     div.appendChild(brick);
   }
 };

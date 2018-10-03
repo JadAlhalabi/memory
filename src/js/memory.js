@@ -19,7 +19,11 @@ const turnBrick = (bricks, img) => {
   } else {
     bricks.second = img;
 
-    if (bricks.first.getAttribute('src') === bricks.second.getAttribute('src')) {
+    if (
+      bricks.first.getAttribute('src') === bricks.second.getAttribute('src') &&
+      bricks.first.getAttribute('data-index-number') !==
+        bricks.second.getAttribute('data-index-number')
+    ) {
       const removeBrick = () => {
         bricks.first.parentElement.classList.add('hidden');
         bricks.second.parentElement.classList.add('hidden');
@@ -74,9 +78,12 @@ const renderMemory = (containerId, bricks) => {
 
       turnBrick(bricks, img);
     };
+    //
     const brick = document.importNode(templateDiv.firstElementChild, true);
     // FIXME:
+    //
     brick.addEventListener('click', handleClick);
+    brick.firstElementChild.setAttribute('data-index-number', 1);
     div.appendChild(brick);
   }
 };

@@ -8,6 +8,14 @@
   margin: 5px;
 }
 
+#header {
+  width: 100%;
+}
+
+#header h1{
+  text-align: center;
+}
+
 .brick img{
   width: 60px;
   height: 60px;

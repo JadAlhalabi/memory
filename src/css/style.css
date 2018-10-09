@@ -31,3 +31,15 @@
 .hidden{
   visibility: hidden;
 }
+
+body {
+  display: flex;
+  justify-content: space-around;
+}
+
+#memory {
+  background: #0277bd;
+}
+#memory2 {
+  background: #00796b;
+}

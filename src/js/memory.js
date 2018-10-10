@@ -1,12 +1,5 @@
 import getMixedNumberArray from './helpers';
-// TODO: 1.11. Antalet försök och antalet par ska visas för användaren
-// TODO: 1.12. Spelaren ska kunna se under hur många sekunder som han har spelat
-// TODO: 1.13. När spelet är slut ska antalet sekunder sluta räkna
-// TODO: 2. Det ska enkelt gå att ladda in flera spel, gebin att anropa en funktion flera gånger
-/* TODO: 3. En enklare dokumentation i README.md som ska vara skriven i markup språket Markdown,
-Bör inhållar kortare information om vad som ligger i respektive fil somt vilka kommandon som ska
- köras för att starta utvecklingsserver samt hur man bygger en build. */
-//
+
 const timer = score => {
   const timeE1 = document.getElementById('time');
   return window.setInterval(() => {

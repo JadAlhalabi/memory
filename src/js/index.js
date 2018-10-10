@@ -4,4 +4,3 @@ import style from '../css/style.css';
 import memory from './memory';
 
 memory('memory');
-memory('memory2');

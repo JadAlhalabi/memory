@@ -9,40 +9,39 @@ Bör inhållar kortare information om vad som ligger i respektive fil somt vilka
 //
 const timer = score => {
   const timeE1 = document.getElementById('time');
-  const t = window.setInterval(() => {
+  return window.setInterval(() => {
     const currentTime = Date.now();
     score.time = Math.round((currentTime - score.startTime) / 1000);
     timeE1.textContent = score.time;
   }, 1000);
-  return t;
 };
 
 const turnBrick = (bricks, img, score, renderOptions, t) => {
   const triesE1 = document.getElementById('tries');
   const pairsE1 = document.getElementById('pairs');
-  // FIXME:
-  if (bricks.second !== null) {
+
+  if (bricks.second) {
     return;
   }
-  // FIXME:
-  //
-  if (bricks.first === null) {
+
+  if (!bricks.first) {
     bricks.first = img;
   } else {
     bricks.second = img;
 
     //
-    if (
-      bricks.first.getAttribute('src') === bricks.second.getAttribute('src') &&
-      bricks.first.getAttribute('data-index-number') ===
-        bricks.second.getAttribute('data-index-number')
-    ) {
-      const removeBrick = () => {
+    const isSameSrc = bricks.first.getAttribute('src') === bricks.second.getAttribute('src');
+    const isDifferentBrick =
+      bricks.first.getAttribute('data-index-number') !==
+      bricks.second.getAttribute('data-index-number');
+    const isPair = isSameSrc && isDifferentBrick;
+    //
+    if (isPair) {
+      window.setTimeout(() => {
         bricks.first.parentElement.classList.add('hidden');
         bricks.second.parentElement.classList.add('hidden');
-        // FIXME:
-        score.pairs += 1;
-        score.tries += 1;
+        score.pairs++;
+        score.tries++;
         pairsE1.textContent = score.pairs;
         triesE1.textContent = score.tries;
         //
@@ -55,24 +54,21 @@ const turnBrick = (bricks, img, score, renderOptions, t) => {
             score.pairs
           } par på ${score.time} sekunder`;
         }
-      };
-      window.setTimeout(removeBrick, 300);
+      }, 300);
     } else {
-      //
-      const turnBackBrick = () => {
+      // FIXME:
+      window.setTimeout(() => {
         //
         const path = 'images/0.png';
         //
         bricks.first.setAttribute('src', path);
         bricks.second.setAttribute('src', path);
-        // FIXME:
-        score.tries += 1;
+        score.tries++;
         triesE1.textContent = score.tries;
         //
         bricks.first = null;
         bricks.second = null;
-      };
-      window.setTimeout(turnBackBrick, 300);
+      }, 300);
     }
   }
 };
@@ -81,8 +77,6 @@ const renderMemory = (containerId, bricks, score, renderOptions) => {
   const container = document.getElementById(containerId);
   //
   const template = document.querySelector('#memory template');
-  // FIXME: ska skrivas om senare.
-  //
   const templateDiv = template.content.querySelector('.memory');
   const headerDiv = template.content.getElementById('header');
   //
@@ -92,32 +86,32 @@ const renderMemory = (containerId, bricks, score, renderOptions) => {
   div.appendChild(header);
   container.appendChild(div);
   const t = timer(score);
-  //
-  //
-  for (let i = 0; i < bricks.tiles.length; i++) {
-    // FIXME:
-    //
-    const handleClick = event => {
-      // FIXME:
-      let img;
-      if (event.target.tagName === 'DIV') {
-        img = event.target.firstElementChild;
-      } else {
-        img = event.target;
-      }
-      const path = `images/${bricks.tiles[i]}.png`;
-      img.setAttribute('src', path);
 
-      turnBrick(bricks, img, score, renderOptions, t);
-    };
+  div.addEventListener('click', event => {
+    const isTargetBrick = event.target.getAttribute('class') === 'brick';
+    const isParentBrick = event.target.parentElement.getAttribute('class') === 'brick';
+    const isBrick = isTargetBrick || isParentBrick;
+    if (!isBrick) {
+      return;
+    }
+    const img = event.target.tagName === 'DIV' ? event.target.firstElementChild : event.target;
+
+    const tileIndex = event.target.getAttribute('data-index-number')
+      ? event.target.getAttribute('data-index-number')
+      : event.target.firstElementChild.getAttribute('data-index-number');
+
+    const path = `images/${bricks.tiles[tileIndex]}.png`;
+    img.setAttribute('src', path);
+
     //
+    turnBrick(bricks, img, score, renderOptions, t);
+  });
+
+  bricks.tiles.forEach((tiles, i) => {
     const brick = document.importNode(templateDiv.firstElementChild, true);
-    // FIXME:
-    //
-    brick.addEventListener('click', handleClick);
-    brick.firstElementChild.setAttribute('data-index-number', 1);
+    brick.firstElementChild.setAttribute('data-index-number', i);
     div.appendChild(brick);
-  }
+  });
 };
 //
 const memory = containerId => {
